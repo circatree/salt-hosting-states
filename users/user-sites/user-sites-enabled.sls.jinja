@@ -1,0 +1,19 @@
+{% for username, user in pillar['users'].items() %}
+{% if 'sites' in user and user.sites|count > 0 %}
+{#
+{% for site, location in user.sites.items() %}
+#}
+server {
+  listen 80 443;
+  host site;
+  
+  location / {
+    root /srv/www/location;
+  }
+}
+{#
+{% endfor %}
+#}
+{% endif %}
+{% endfor %}
+

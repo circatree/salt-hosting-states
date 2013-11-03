@@ -1,0 +1,9 @@
+{% set site = pillar.get('nginx', {}).get(site, []) -%}
+server {
+  listen 80;
+  server_name {{ site['hosts'] }};
+
+  location / {
+    root {{ site['root'] }};
+  }
+}

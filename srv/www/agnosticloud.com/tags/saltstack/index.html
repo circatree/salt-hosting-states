@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>SaltStack | Agnosticloud.com</title>
+  </head>
+  <body>
+    <h1>Learn about SaltStack on Agnosticloud.com</h1>
+    <article>
+      <h2>Getting Started with SaltStack</h2>
+      <ul>
+        <li>Minion - is a machine running the salt-minion daemon.  It authenticates with a
+    salt "master" and then accepts commands from master (or in some cases, from other
+    minion.)</li>
+        <li>Pillar - is a location where sensitive or specific information can be stored.
+    A pillar is a relative store of information that can be made available to
+    global or local minion.</li>
+        <li>Grain - is a named pillar object.  A grain can contain key-values, lists, etc.
+    I think of it as a configuration object.  Grains seemed can be nested. Grains,
+    in Pillar, are a great place for global and local config data such as passwords,
+    service paths, etc.</li>
+        <li>State - is a specification of a state--the state of a service, a package, a user,
+    a file, a directory, etc.  States are setup and enforced on minion who are
+    targeted in a top file (top.sls) or salt state command.
+          <ul>
+            <li>Check out the <a href="http://docs.saltstack.com/ref/states/all/salt.states.file.html#salt.states.file.recurse">awesome docs!</a></li>
+          </ul>
+        </li>
+      </ul>
+      <p>$ salt '*' state.highstate<br/>
+        # produces this "diff":</p>
+      <pre>
+  ----------
+      State: - pkg
+      Name:      vsftpd
+      Function:  installed
+          Result:    True
+          Comment:   Package vsftpd is already installed
+          Changes:
+  ----------
+      State: - file
+      Name:      /etc/vsftpd.conf
+      Function:  managed
+          Result:    True
+          Comment:   File /etc/vsftpd.conf updated
+          Changes:   diff: ---
+  +++
+  @@ -145,3 +145,10 @@
+   # This option specifies the location of the RSA certificate to use for SSL
+   # encrypted connections.
+   rsa_cert_file=/etc/ssl/private/vsftpd.pem
+  +
+  +hide_ids=YES
+  +pasv_address=127.0.0.1
+  +pasv_min_port=32000
+  +pasv_max_port=32127
+  +syslog_enable=YES
+  +
+  
+  
+  ----------
+      State: - service
+      Name:      vsftpd
+      Function:  running
+          Result:    True
+          Comment:   Service restarted
+          Changes:   vsftpd: True
+  
+  root@salt:/srv/salt/ftp#
+      </pre>
+    </article>
+  </body>
+</html>
