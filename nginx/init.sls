@@ -6,6 +6,13 @@ nginx_stable_ppa:
     - ppa: nginx/stable
     - require_in:
       - pkg: nginx
+
+/srv/www:
+  file.directory:
+    - user: www-data
+    - group: www-data
+    - mode: 755
+
 nginx:
   pkg:
     - name: nginx
