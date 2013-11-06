@@ -1,6 +1,9 @@
 {% set sites = pillar.get('nginx', {}).get('sites', ['default']) %}
 {% set sites_disabled = pillar.get('nginx', {}).get('sites_disabled', []) %}
 {% if sites %}
+include:
+  - php
+
 nginx_stable_ppa:
   pkgrepo.managed:
     - ppa: nginx/stable
