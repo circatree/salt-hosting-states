@@ -24,7 +24,6 @@ nginx:
     - require:
       - file: /etc/nginx
       - file: /etc/nginx/htpasswd
-      - file: /srv/www/default
       {% for site in sites %}
       - file: /etc/nginx/sites-available/{{site}}
       - file: /etc/nginx/sites-enabled/{{site}}
