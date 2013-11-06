@@ -9,6 +9,9 @@ base:
   'roles:ftpserver':
     - match: grain
     - ftp
+  'roles:mysqlserver':
+    - match: grain
+    - mariadb
   'roles:sshserver':
     - match: grain
     - ssh.server
