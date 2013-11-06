@@ -35,41 +35,45 @@ nginx:
 
 /etc/nginx:
   file.recurse:
-    - source: salt://etc/nginx
+    - source: salt://nginx/etc/nginx
     - user: root
     - group: root
 
+
+{# is this even necessary? #}
+
 /etc/nginx/timestamp:
   file.managed:
-    - source: salt://etc/nginx/timestamp
+    - source: salt://nginx/etc/nginx/timestamp
+
 
 /etc/nginx/htpasswd:
   file.recurse:
-    - source: salt://etc/nginx/htpasswd
+    - source: salt://nginx/etc/nginx/htpasswd
     - user: www-data
     - group: www-data
     - dir_mode: 544
     - file_mode: 444
 
 {% for site in sites %}
-/etc/nginx/sites-available/{{site}}:
+/etc/nginx/sites-available/{{ site }}:
   file.managed:
     - source: salt://nginx/templates/site.jinja
     - template: jinja
     - context:
-      site: {{site}}
+      site: {{ site }}
     - require:
       - pkg: nginx
 
-/etc/nginx/sites-enabled/{{site}}:
+/etc/nginx/sites-enabled/{{ site }}:
   file.symlink:
-    - target: /etc/nginx/sites-available/{{site}}
+    - target: /etc/nginx/sites-available/{{ site }}
 {% endfor %}
 
 {% endif %}{# (end if sites) #}
 
 {% for site in sites_disabled %}
-/etc/nginx/sites-enabled/{{site}}:
+/etc/nginx/sites-enabled/{{ site }}:
     file.absent
 {% endfor %}
 
@@ -82,9 +86,9 @@ nginx:
         - mode: 755
         - makedirs: True
 
-/etc/nginx/ssl/{{ssl['cert_filename']}}:
+/etc/nginx/ssl/{{ ssl['cert_filename'] }}:
     file.managed:
-        - source: salt://etc/nginx/ssl/cert.jinja
+        - source: salt://nginx/templates/cert.jinja
         - template: jinja
         - user: www-data
         - group: www-data
@@ -93,9 +97,9 @@ nginx:
             - pkg: nginx
             - file: /etc/nginx/ssl
 
-/etc/nginx/ssl/{{ssl['key_filename']}}:
+/etc/nginx/ssl/{{ ssl['key_filename'] }}:
     file.managed:
-        - source: salt://etc/nginx/ssl/key.jinja
+        - source: salt://nginx/templates/key.jinja
         - template: jinja
         - user: www-data
         - group: www-data
