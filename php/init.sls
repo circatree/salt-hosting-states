@@ -10,7 +10,7 @@ php:
    - require_in:
      - service: nginx
 
-php5-apc:
+php-apc:
   pkg:
     - installed
 
