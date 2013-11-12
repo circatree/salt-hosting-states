@@ -9,7 +9,6 @@ mariadb-server:
 
   cmd.run:
     - name: apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xcbcb082a1bb943db && add-apt-repository 'deb http://ftp.osuosl.org/pub/mariadb/repo/{{ version }}/ubuntu {{ oscodename }} main' && apt-get update
-    - require_in: mariadb-server
 
   debconf.set:
     - name: mariadb-server
