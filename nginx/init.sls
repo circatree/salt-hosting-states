@@ -58,6 +58,11 @@ nginx:
     - file_mode: 444
 
 {% for site in sites %}
+{{ site.root }}:
+  file.directory:
+    - user: www-data
+    - group: www-data
+
 /etc/nginx/sites-available/{{ site }}:
   file.managed:
     - source: salt://nginx/templates/site.jinja
