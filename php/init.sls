@@ -1,6 +1,3 @@
-include:
-  - http
-
 php:
   pkg:
    - installed
@@ -17,5 +14,3 @@ php-apc:
 php5-fpm:
   pkg:
     - installed
-
-
