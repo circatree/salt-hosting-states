@@ -5,6 +5,9 @@ server {
   root {{ site['root'] }};
 
   location / {
+    {% if 'opts' in site and 'autoindex' in site['opts'] -%}
+    autoindex on;
+    {%- endif %}
   }
 
   location ~ .php$ {
