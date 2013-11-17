@@ -61,7 +61,7 @@ user_skel:
     {% endif %}
   {% else -%}
   file.directory:
-  {%- endif %}
+  {% endif %}
     - user: {{ username }}
     {% if 'home_group' in user %}
     - group: {{ user.home_group }}
