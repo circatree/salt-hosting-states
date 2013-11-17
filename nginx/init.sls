@@ -1,8 +1,5 @@
-{% set sites = pillar.get('nginx', {}).get('sites', ['default']) %}
-{% set sites_disabled = pillar.get('nginx', {}).get('sites_disabled', []) %}
-{% if sites %}
-include:
-  - php
+{% set sites_enabled = salt['pillar.get']('nginx:sites_enabled', ['default']) %}
+{% set sites_disabled = salt['pillar.get']('nginx:sites_disabled', []) %}
 
 nginx_stable_ppa:
   pkgrepo.managed:
@@ -27,13 +24,15 @@ nginx:
     - require:
       - file: /etc/nginx
       - file: /etc/nginx/htpasswd
-      {% for site in sites %}
-      - file: /etc/nginx/sites-available/{{site}}
-      - file: /etc/nginx/sites-enabled/{{site}}
+      {% for sitename in sites_enabled %}
+      - file: /etc/nginx/sites-available/{{ sitename }}
+      - file: /etc/nginx/sites-enabled/{{ sitename }}
       {% endfor %}
-      {% for site in sites_disabled %}
-      - file: /etc/nginx/sites-enabled/{{site}}
+      {% if sites_disabled %}
+      {% for disabled_sitename in sites_disabled %}
+      - file: /etc/nginx/sites-enabled/{{ disabled_sitename }}
       {% endfor %}
+      {% endif %}
 
 /etc/nginx:
   file.recurse:
@@ -57,13 +56,21 @@ nginx:
     - dir_mode: 544
     - file_mode: 444
 
-{% for site in sites %}
-{{ site.root }}:
+{% for sitename in sites_enabled %}
+{% set site = pillar['nginx']['sites'][sitename] %}
+{{ sitename }}_webroot:
   file.directory:
-    - user: www-data
-    - group: www-data
+    - name: {{ site.root }}
+    - user: {{ site.owner }}
+    - group: {{ salt['pillar.get']('nginx:web_user', 'www-data') }}
+    - dir_mode: 750
+    - file_mode: 640
+    - recurse:
+      - mode
+      - user
+      - group
 
-/etc/nginx/sites-available/{{ site }}:
+/etc/nginx/sites-available/{{ sitename }}:
   file.managed:
     - source: salt://nginx/templates/site.jinja
     - template: jinja

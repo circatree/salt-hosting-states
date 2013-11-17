@@ -1,0 +1,81 @@
+#
+# Nginx Example Pillar Data (i.e. nginx.sls)
+#
+
+#
+# Gets list of clients to be served by this minion.
+#
+{% set clients = grains.get('clients', []) -%}
+
+nginx:
+
+  #
+  # Defines the name of the user that should be used to run nginx.
+  #
+  web_user: www-data
+
+  #
+  # Defines the names of sites that should be enabled.
+  #
+  sites_enabled:
+    - default
+    {% if 'client-a' in clients -%}
+    - client-a-site-1.com
+    - client-a-site-2.com
+    {%- endif %}
+    {% if 'client-b' in clients -%}
+    - client-b-site-1.com
+    - client-b-site-2.com
+    {%- endif %}
+
+  #
+  # Defines the names of sites that should be disabled.
+  #
+  sites_disabled:
+    - disabledsite.com
+
+  #
+  # Defines each site refenced in sites_enabled and site_disabled lists.
+  # Note: required keys:
+  #  - root
+  #  - owner
+  #  - hosts
+  #
+  sites:
+    default:
+      root: /srv/www
+      owner: www-data
+      hosts:
+        localhost
+        127.0.0.1
+        {{ grains['localhost'] }}
+  
+    client-a-site-1.com:
+      root: /home/client-a/srv/www/client-a-site-1.com
+      owner: client-a
+      hosts:
+        client-a-site-1.com
+        www.client-a-site-1.com
+      opts:
+        - autoindex
+  
+    client-a-site-2.com:
+      root: /home/client-a/srv/www/client-a-site-2.com
+      owner: client-a
+      hosts:
+        client-a-site-2.com
+        www.client-a-site-2.com
+
+    client-b-site-1.com:
+      root: /home/client-b/srv/www/client-b-site-1.com
+      owner: client-b
+      hosts:
+        client-b-site-1.com
+        www.client-b-site-1.com
+  
+    client-b-site-2.com:
+      root: /home/client-b/srv/www/client-b-site-2.com
+      owner: client-b
+      hosts:
+        client-b-site-2.com
+        www.client-b-site-2.com
