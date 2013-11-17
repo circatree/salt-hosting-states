@@ -18,3 +18,4 @@ base:
   'roles:webserver':
     - match: grain
     - nginx
+    - php
