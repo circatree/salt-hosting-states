@@ -7,8 +7,9 @@ nginx_stable_ppa:
     - require_in:
       - pkg: nginx
 
-/srv/www:
+nginx_webroot:
   file.directory:
+    - name: /srv/www
     - user: www-data
     - group: www-data
     - mode: 755
