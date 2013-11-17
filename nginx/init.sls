@@ -40,13 +40,9 @@ nginx:
     - user: root
     - group: root
 
-
-{# is this even necessary? #}
-
 /etc/nginx/timestamp:
   file.managed:
     - source: salt://nginx/etc/nginx/timestamp
-
 
 /etc/nginx/htpasswd:
   file.recurse:
