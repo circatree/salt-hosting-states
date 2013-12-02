@@ -52,6 +52,7 @@ user_skel:
       - group: {{ user.group }}
     - group: {{ user.group }}
     {% endif %}
+{#
 
 {{ home }}:
   {% if 'home_source' in user -%}
@@ -122,6 +123,8 @@ user_skel:
     - enc: ecdsa
 {% endfor %}
 {% endif %}
+
+#}
    
 {% if 'extended_state' in user %}
 {% include user.extended_state %}
