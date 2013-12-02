@@ -48,6 +48,10 @@ user_skel:
     {% endif %}
     - require:
       - group: {{ username }}
+    {% if 'group' in user %}
+      - group: {{ user.group }}
+    - group: {{ user.group }}
+    {% endif %}
 
 {{ home }}:
   {% if 'home_source' in user -%}
