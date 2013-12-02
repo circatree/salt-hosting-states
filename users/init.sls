@@ -52,7 +52,6 @@ user_skel:
       - group: {{ user.group }}
     - group: {{ user.group }}
     {% endif %}
-{#
 
 {{ home }}:
   {% if 'home_source' in user -%}
@@ -78,6 +77,8 @@ user_skel:
     {% endif %}
     - require:
       - user: {{ username }}
+
+{#
 
 {% if 'ssh_authorized_keys' in user %}
 
