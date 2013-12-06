@@ -35,7 +35,7 @@ nginx:
     - disabledsite.com
 
   #
-  # Defines each site refenced in sites_enabled and site_disabled lists.
+  # Defines each site referenced in sites_enabled and site_disabled lists.
   # Note: required keys:
   #  - root
   #  - owner
@@ -66,16 +66,3 @@ nginx:
         client-a-site-2.com
         www.client-a-site-2.com
 
-    client-b-site-1.com:
-      root: /home/client-b/srv/www/client-b-site-1.com
-      owner: client-b
-      hosts:
-        client-b-site-1.com
-        www.client-b-site-1.com
-  
-    client-b-site-2.com:
-      root: /home/client-b/srv/www/client-b-site-2.com
-      owner: client-b
-      hosts:
-        client-b-site-2.com
-        www.client-b-site-2.com
