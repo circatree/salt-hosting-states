@@ -4,6 +4,10 @@ base:
     - users
     - vim
     - postfix
+  'roles:jenkinsserver':
+    - match: grain
+    - git
+    - jenkins
   'roles:gitserver':
     - match: grain
     - git.server
