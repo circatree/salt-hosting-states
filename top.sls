@@ -3,6 +3,7 @@ base:
     - hosts
     - users
     - vim
+    - postfix
   'roles:gitserver':
     - match: grain
     - git.server
