@@ -1,0 +1,9 @@
+{% set generic_from = pillar.get('postfix', {}).get('generic_from') -%}
+{% if generic_from -%}
+  {% if grains['fqdn'] != grains['host'] -%}
+# output of dnsdomainname
+@{{ grains['fqdn']}} {{generic_from}}
+  {% endif -%}
+# output of hostname -f
+@{{grains['host']}} {{generic_from}}
+{% endif -%}

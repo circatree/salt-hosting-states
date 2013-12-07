@@ -1,0 +1,6 @@
+# See man 5 aliases for format
+{% for alias_pair in pillar.get('postfix', {}).get('aliases', []) -%}
+{% for src, dest in alias_pair.items() -%}
+{{src}}: {{dest}}
+{% endfor -%}
+{% endfor -%}
