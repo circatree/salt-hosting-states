@@ -5,11 +5,11 @@
 
 {% if grains['os'] == 'Ubuntu' %}
 
+{% if grains['oscodename'] == 'precise' %}
 {#
   Backport raring kernel to Ubuntu 12.04 Precise.
   @see http://docs.docker.io/en/latest/installation/ubuntulinux/#ubuntu-precise
 #}
-{% if grains['oscodename'] == 'precise' %}
 docker-raring-backport-kernel:
   pkg.installed:
     - pkgs:
