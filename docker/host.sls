@@ -21,8 +21,9 @@ docker-pkg-key:
     - name: wget -qO- https://get.docker.io/gpg | apt-key add - && apt-get update
     - unless: apt-key list | grep A88D21E9
 
-/etc/apt/sources.list.d/docker.list:
+docker-apt-sources-list:
   file.managed:
+    - name: /etc/apt/sources.list.d/docker.list
     - source: salt://docker/etc/apt/sources.list.d/docker.list
 
 lxc-docker:
