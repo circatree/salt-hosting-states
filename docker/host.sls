@@ -2,7 +2,6 @@
   Docker Host
   Currently with support for Ubuntu 12.04 and 13.04.
 #}
-
 {% if grains['os'] == 'Ubuntu' %}
 
 {% if grains['oscodename'] == 'precise' %}
