@@ -4,6 +4,10 @@ base:
     - users
     - vim
     - postfix
+    - salt.minion
+  'roles:dockerhost':
+    - match: grain
+    - docker.host
   'roles:jenkinsserver':
     - match: grain
     - git
