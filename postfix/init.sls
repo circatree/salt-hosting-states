@@ -1,6 +1,4 @@
-
-    - test
-stfix:
+postfix:
     pkg:
         - installed
     service:
