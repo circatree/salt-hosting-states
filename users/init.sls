@@ -1,3 +1,10 @@
+user_skel:
+  file.recurse:
+    - name: /etc/skel
+    - source: salt://users/etc/skel
+    - user: root
+    - group: root
+
 {% set roles = grains.get('roles', []) %}
 {% for username, user in pillar['users'].iteritems() %}
 
@@ -13,13 +20,6 @@
 {% else %}
 {% set keep_modified_local_settings = false %}
 {% endif %}
-
-user_skel:
-  file.recurse:
-    - name: /etc/skel
-    - source: salt://users/etc/skel
-    - user: root
-    - group: root
 
 {{ username }}:
   {% if 'gid' in user %}
