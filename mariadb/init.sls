@@ -1,7 +1,7 @@
 {% set os = grains['os'] %}
 {% set oscodename = grains['oscodename'] %}
-{% set version = pillar.get('mariadb_version', 10.0) %}
-{% set rootpass = pillar.get('mariadb_rootpass', 'rootpass') %}
+{% set version = salt['pillar.get']('mysql:mariadb_version', 5.5) %}
+{% set rootpass = salt['pillar.get']('mysql:mariadb_rootpass', 'rootpass') %}
 
 mariadb-server:
 
@@ -24,13 +24,10 @@ mariadb-server:
 
 {% endif %}
 
-{#
- # @todo Implement this
 /etc/mysql/my.cnf:
   file.managed:
     - user: root
     - group: root
     - mode: 0644
-    - source: salt://mariadb/my.cnf
+    - source: salt://mariadb/mariadb-{{ version }}-my.cnf.jinja
     - template: jinja
-#}
