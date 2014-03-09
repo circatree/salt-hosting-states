@@ -22,6 +22,7 @@ nginx:
     - running
     - watch:
       - file: /etc/nginx/timestamp
+      - file: /etc/nginx/nginx.conf
     - require:
       - file: /etc/nginx
       - file: /etc/nginx/htpasswd
