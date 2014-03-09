@@ -41,6 +41,11 @@ nginx:
     - user: root
     - group: root
 
+/etc/nginx/nginx.conf:
+  file.managed:
+    - template: jinja
+    - source: salt://nginx/templates/nginx.conf.jinja
+
 /etc/nginx/timestamp:
   file.managed:
     - source: salt://nginx/etc/nginx/timestamp

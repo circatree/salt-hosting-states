@@ -1,0 +1,82 @@
+{# @see http://www.codestance.com/tutorials-archive/nginx-tuning-for-best-performance-255 -#}
+
+user www-data;
+worker_processes auto;
+pid /var/run/nginx.pid;
+
+{# worker_rlimit_nofile 100000; #}
+error_log /var/log/nginx/error.log error;
+
+events {
+  worker_connections 1024;
+  use epoll;
+  multi_accept on;
+}
+
+http {
+  access_log                    off;
+  sendfile                      on;
+  tcp_nopush                    on;
+  tcp_nodelay                   on;
+  types_hash_max_size           2048;
+  server_names_hash_bucket_size 1000;
+  server_tokens                 off;
+
+  # Headers
+  add_header X-Server-ID $hostname;
+
+  # @todo Real IP from load balancer.
+  # set_real_ip_from            10.10.10.0/24;
+  # real_ip_header              X-Forwarded-For;
+
+  # Size Limits & Buffer Overflows
+  # One of the most important things to tweak.
+  client_header_timeout         600;
+  client_body_timeout           600;
+  client_body_buffer_size       3m;
+  client_header_buffer_size     1m;
+  client_max_body_size          200m;
+  large_client_header_buffers   4 1256k;
+
+  open_file_cache               max=200000 inactive=20s;
+  open_file_cache_valid         30s;
+  open_file_cache_min_uses      2;
+  open_file_cache_errors        on;
+
+  # Timeouts
+  keepalive_timeout             15 15;
+  keepalive_requests            100000;
+  send_timeout                  10;
+  reset_timedout_connection     on;
+
+  # SSL Settings
+  # ssl_session_cache shared:SSL: 10m;
+  ssl_session_timeout           10m;
+
+  # server_names_as_bucket_size 64;
+  # server_name_in_redirect     off;
+
+  # Mime Types
+  include                       /etc/nginx/mime.types;
+  default_type                  application/octet-stream;
+
+  # Compression
+  gzip on;
+  gzip_min_length 10240;
+  gzip_proxied expired no-cache no-store private auth;
+  gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml;
+  gzip_disable "MSIE [1-6]\.";
+
+  # Flood Control
+  limit_conn_zone $binary_remote_addr zone=conn_limit_per_ip:10m;
+  limit_req_zone $binary_remote_addr zone=req_limit_per_ip:10m rate=5r/s;
+  server {
+      limit_conn conn_limit_per_ip 10;
+      limit_req zone=req_limit_per_ip burst=10 nodelay;
+  }
+
+  # Includes
+  # include /etc/nginx/naxsi_core.rules;
+  include /etc/nginx/conf.d/*.autoload.conf;
+  include /etc/nginx/sites-enabled/*;
+}
