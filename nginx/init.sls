@@ -68,6 +68,7 @@ nginx:
     - group: {{ salt['pillar.get']('nginx:web_user', 'www-data') }}
     - dir_mode: 750
     - file_mode: 640
+    - makedirs: True
     - recurse:
       - mode
       - user
