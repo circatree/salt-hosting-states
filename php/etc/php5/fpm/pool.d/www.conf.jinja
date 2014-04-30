@@ -1,6 +1,3 @@
-{% set turbo = grains['id'] in ['tabata-nginx-dev', 'tabata-nginx-stg', 'tabata-nginx-prd'] -%}
-{# @see http://www.codestance.com/tutorials-archive/install-and-configure-php-fpm-on-nginx-385 -#}
-
 [www]
 user = {{ salt['pillar.get']('php-fpm:user', 'www-data') }}
 group = {{ salt['pillar.get']('php-fpm:group', 'www-data') }}
