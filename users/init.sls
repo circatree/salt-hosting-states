@@ -6,7 +6,9 @@ user_skel:
     - group: root
 
 {% set roles = grains.get('roles', []) %}
-{% for username, user in pillar['users'].iteritems() %}
+{% set users = salt['pillar.get']('users', []) %}
+{% if users %}
+{% for username, user in users.iteritems() %}
 
 {% if 'home' in user %}
 {% set home = user.home %}
@@ -66,6 +68,7 @@ user_skel:
   {% else -%}
   file.directory:
   {% endif %}
+    - makedirs: True
     - user: {{ username }}
     {% if 'home_group' in user %}
     - group: {{ user.home_group }}
@@ -77,8 +80,6 @@ user_skel:
     {% endif %}
     - require:
       - user: {{ username }}
-
-{#
 
 {% if 'ssh_authorized_keys' in user %}
 
@@ -114,6 +115,8 @@ user_skel:
 
 {% endif %}
 
+{#
+
 {% if 'ssh_known_hosts' in user %}
 {% for host, fingerprint in user.get('ssh_known_hosts', {}).items() %}
 {{ host }}:
@@ -132,8 +135,12 @@ user_skel:
 {% endif %}
 
 {% endfor %}{# for username in pillar.users #}
+{% endif %}{# if users not empty #}
 
-{% for username in pillar.get('absent_users', []) %}
+{% set absent_users = salt['pillar.get']('absent_users', []) %}
+{% if absent_users %}
+{% for username in absent_users %}
 {{ username }}:
   user.absent
 {% endfor %}
+{% endif %}
