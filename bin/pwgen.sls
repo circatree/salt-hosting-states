@@ -1,0 +1,2 @@
+pwgen:
+  pkg.installed

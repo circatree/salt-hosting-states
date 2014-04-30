@@ -1,30 +1,54 @@
+{% set requirements = salt['grains.get']('requirements', []) %}
+{% set enable_tracelytics = 'tracelytics' in requirements and 0 %}
+
 base:
   '*':
     - hosts
     - users
-    - vim
-    - postfix
-    - salt.minion
-  'roles:dockerhost':
+#    - vim
+#    - postfix
+  'os:Ubuntu':
+    - match: grain
+    - apt.sources.list
+    - apt.update
+    {% if enable_tracelytics %}
+    - tracelytics
+    - tracelytics.conf
+    - tracelytics.apt.sources
+    {% endif %}
+  'roles:web-server':
+    - match: grain
+    - memcache
+    - memcache.php
+    - php
+    - php.apc
+    - php.fpm
+    - php.fpm.memcache
+    - php.mysql
+    - nginx #tracelytics support is in nginx state.
+  'roles:docker-host':
     - match: grain
     - docker.host
-  'roles:jenkinsserver':
+  'roles:jenkin-sserver':
     - match: grain
     - git
     - jenkins
-  'roles:gitserver':
+  'roles:git-server':
     - match: grain
     - git.server
   'roles:ftpserver':
     - match: grain
     - ftp
-  'roles:mysqlserver':
+  'roles:mysql-server':
     - match: grain
+    - bin.inotify
+    - bin.pwgen
     - mariadb
-  'roles:sshserver':
+  'roles:ssh-server':
     - match: grain
     - ssh.server
-  'roles:webserver':
+
+  # Grains-derived requirements:
+  'requirements:drush':
     - match: grain
-    - nginx
-    - php
+    - php.drush

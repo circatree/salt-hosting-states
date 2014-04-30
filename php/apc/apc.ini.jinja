@@ -1,0 +1,12 @@
+[apc]
+extension = {{ salt['pillar.get']('apc:extension', 'apc.so') }}
+
+apc.mmap_file_mask= {{ salt['pillar.get']('apc:mmap_file_mask', '/apc.shm.XXXXXX') }}
+apc.shm_size = {{ salt['pillar.get']('apc:shm_size', '256M') }}
+apc.shm_segments = {{ salt['pillar.get']('apc:shm_segments', 1) }}
+
+;apc.ttl = {{ salt['pillar.get']('apc:ttl', 7200) }}
+
+; useful for drush @todo generating unwanted notices, update apc possibly?
+apc.enable_cli = {{ salt['pillar.get']('apc:enable_cli', 1) }}
+apc.rfc1867 = {{ salt['pillar.get']('apce:rfc1867', 1) }}

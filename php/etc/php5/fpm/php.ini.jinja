@@ -1,0 +1,353 @@
+[PHP]
+
+engine = {{ salt['pillar.get']('php:engine', 'On') }}
+
+short_open_tag = {{ salt['pillar.get']('php:short_open_tag', 'Off') }}
+
+asp_tags = {{ salt['pillar.get']('php:asp_tags', 'Off') }}
+
+precision = {{ salt['pillar.get']('php:precision', '14') }}
+
+output_buffering = {{ salt['pillar.get']('php:output_buffering', '4096') }}
+
+zlib.output_compression = {{ salt['pillar.get']('php:zlib.output_compression', 'Off') }}
+
+implicit_flush = {{ salt['pillar.get']('php:implicit_flush', 'Off') }}
+
+unserialize_callback_func = {{ salt['pillar.get']('php:unserialize_callback_func', '') }}
+
+serialize_precision = {{ salt['pillar.get']('php:serialize_precision', '17') }}
+
+disable_functions = {{ salt['pillar.get']('php:disable_functions', 'pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,') }}
+
+disable_classes = {{ salt['pillar.get']('php:disable_classes', '') }}
+
+zend.enable_gc = {{ salt['pillar.get']('php:zend.enable_gc', 'On') }}
+
+expose_php = {{ salt['pillar.get']('php:expose_php', 'On') }}
+
+max_execution_time = {{ salt['pillar.get']('php:max_execution_time', '30') }}
+
+max_input_time = {{ salt['pillar.get']('php:max_input_time', '60') }}
+
+memory_limit = {{ salt['pillar.get']('php:memory_limit', '128M') }}
+
+cgi.fix_pathinfo = {{ salt['pillar.get']('php:cgi.fix_pathinfo', '0') }}
+
+error_reporting = {{ salt['pillar.get']('php:error_reporting', 'E_ALL & ~E_DEPRECATED & ~E_STRICT') }}
+
+display_errors = {{ salt['pillar.get']('php:display_errors', 'Off') }}
+
+display_startup_errors = {{ salt['pillar.get']('php:display_startup_errors', 'Off') }}
+
+log_errors = {{ salt['pillar.get']('php:log_errors', 'On') }}
+
+log_errors_max_len = {{ salt['pillar.get']('php:log_errors_max_len', '1024') }}
+
+ignore_repeated_errors = {{ salt['pillar.get']('php:ignore_repeated_errors', 'Off') }}
+
+ignore_repeated_source = {{ salt['pillar.get']('php:ignore_repeated_source', 'Off') }}
+
+report_memleaks = {{ salt['pillar.get']('php:report_memleaks', 'On') }}
+
+track_errors = {{ salt['pillar.get']('php:track_errors', 'Off') }}
+
+html_errors = {{ salt['pillar.get']('php:html_errors', 'On') }}
+
+variables_order = {{ salt['pillar.get']('php:variables_order', '"GPCS"') }}
+
+request_order = {{ salt['pillar.get']('php:request_order', '"GP"') }}
+
+register_argc_argv = {{ salt['pillar.get']('php:register_argc_argv', 'Off') }}
+
+auto_globals_jit = {{ salt['pillar.get']('php:auto_globals_jit', 'On') }}
+
+post_max_size = {{ salt['pillar.get']('php:post_max_size', '8M') }}
+
+auto_prepend_file = {{ salt['pillar.get']('php:auto_prepend_file', '') }}
+
+auto_append_file = {{ salt['pillar.get']('php:auto_append_file', '') }}
+
+default_mimetype = {{ salt['pillar.get']('php:default_mimetype', '"text/html"') }}
+
+doc_root = {{ salt['pillar.get']('php:doc_root', '') }}
+
+user_dir = {{ salt['pillar.get']('php:user_dir', '') }}
+
+enable_dl = {{ salt['pillar.get']('php:enable_dl', 'Off') }}
+
+file_uploads = {{ salt['pillar.get']('php:file_uploads', 'On') }}
+
+upload_max_filesize = {{ salt['pillar.get']('php:upload_max_filesize', '2M') }}
+
+max_file_uploads = {{ salt['pillar.get']('php:max_file_uploads', '20') }}
+
+allow_url_fopen = {{ salt['pillar.get']('php:allow_url_fopen', 'On') }}
+
+allow_url_include = {{ salt['pillar.get']('php:allow_url_include', 'Off') }}
+
+default_socket_timeout = {{ salt['pillar.get']('php:default_socket_timeout', '60') }}
+
+[CLI Server]
+
+cli_server.color = {{ salt['pillar.get']('php:cli_server.color', 'On') }}
+
+[Date]
+
+[filter]
+
+[iconv]
+
+[intl]
+
+[sqlite]
+
+[sqlite3]
+
+[Pcre]
+
+[Pdo]
+
+[Pdo_mysql]
+
+pdo_mysql.cache_size = {{ salt['pillar.get']('php:pdo_mysql.cache_size', '2000') }}
+
+pdo_mysql.default_socket = {{ salt['pillar.get']('php:pdo_mysql.default_socket', '') }}
+
+[Phar]
+
+[mail function]
+
+SMTP = {{ salt['pillar.get']('php:SMTP', 'localhost') }}
+
+smtp_port = {{ salt['pillar.get']('php:smtp_port', '25') }}
+
+mail.add_x_header = {{ salt['pillar.get']('php:mail.add_x_header', 'On') }}
+
+[SQL]
+
+sql.safe_mode = {{ salt['pillar.get']('php:sql.safe_mode', 'Off') }}
+
+[ODBC]
+
+odbc.allow_persistent = {{ salt['pillar.get']('php:odbc.allow_persistent', 'On') }}
+
+odbc.check_persistent = {{ salt['pillar.get']('php:odbc.check_persistent', 'On') }}
+
+odbc.max_persistent = {{ salt['pillar.get']('php:odbc.max_persistent', '-1') }}
+
+odbc.max_links = {{ salt['pillar.get']('php:odbc.max_links', '-1') }}
+
+odbc.defaultlrl = {{ salt['pillar.get']('php:odbc.defaultlrl', '4096') }}
+
+odbc.defaultbinmode = {{ salt['pillar.get']('php:odbc.defaultbinmode', '1') }}
+
+[Interbase]
+
+ibase.allow_persistent = {{ salt['pillar.get']('php:ibase.allow_persistent', '1') }}
+
+ibase.max_persistent = {{ salt['pillar.get']('php:ibase.max_persistent', '-1') }}
+
+ibase.max_links = {{ salt['pillar.get']('php:ibase.max_links', '-1') }}
+
+ibase.timestampformat = {{ salt['pillar.get']('php:ibase.timestampformat', '"%Y-%m-%d %H:%M:%S"') }}
+
+ibase.dateformat = {{ salt['pillar.get']('php:ibase.dateformat', '"%Y-%m-%d"') }}
+
+ibase.timeformat = {{ salt['pillar.get']('php:ibase.timeformat', '"%H:%M:%S"') }}
+
+[MySQL]
+
+mysql.allow_local_infile = {{ salt['pillar.get']('php:mysql.allow_local_infile', 'On') }}
+
+mysql.allow_persistent = {{ salt['pillar.get']('php:mysql.allow_persistent', 'On') }}
+
+mysql.cache_size = {{ salt['pillar.get']('php:mysql.cache_size', '2000') }}
+
+mysql.max_persistent = {{ salt['pillar.get']('php:mysql.max_persistent', '-1') }}
+
+mysql.max_links = {{ salt['pillar.get']('php:mysql.max_links', '-1') }}
+
+mysql.default_port = {{ salt['pillar.get']('php:mysql.default_port', '') }}
+
+mysql.default_socket = {{ salt['pillar.get']('php:mysql.default_socket', '') }}
+
+mysql.default_host = {{ salt['pillar.get']('php:mysql.default_host', '') }}
+
+mysql.default_user = {{ salt['pillar.get']('php:mysql.default_user', '') }}
+
+mysql.default_password = {{ salt['pillar.get']('php:mysql.default_password', '') }}
+
+mysql.connect_timeout = {{ salt['pillar.get']('php:mysql.connect_timeout', '60') }}
+
+mysql.trace_mode = {{ salt['pillar.get']('php:mysql.trace_mode', 'Off') }}
+
+[MySQLi]
+
+mysqli.max_persistent = {{ salt['pillar.get']('php:mysqli.max_persistent', '-1') }}
+
+mysqli.allow_persistent = {{ salt['pillar.get']('php:mysqli.allow_persistent', 'On') }}
+
+mysqli.max_links = {{ salt['pillar.get']('php:mysqli.max_links', '-1') }}
+
+mysqli.cache_size = {{ salt['pillar.get']('php:mysqli.cache_size', '2000') }}
+
+mysqli.default_port = {{ salt['pillar.get']('php:mysqli.default_port', '3306') }}
+
+mysqli.default_socket = {{ salt['pillar.get']('php:mysqli.default_socket', '') }}
+
+mysqli.default_host = {{ salt['pillar.get']('php:mysqli.default_host', '') }}
+
+mysqli.default_user = {{ salt['pillar.get']('php:mysqli.default_user', '') }}
+
+mysqli.default_pw = {{ salt['pillar.get']('php:mysqli.default_pw', '') }}
+
+mysqli.reconnect = {{ salt['pillar.get']('php:mysqli.reconnect', 'Off') }}
+
+[mysqlnd]
+
+mysqlnd.collect_statistics = {{ salt['pillar.get']('php:mysqlnd.collect_statistics', 'On') }}
+
+mysqlnd.collect_memory_statistics = {{ salt['pillar.get']('php:mysqlnd.collect_memory_statistics', 'Off') }}
+
+[OCI8]
+
+[PostgreSQL]
+
+pgsql.allow_persistent = {{ salt['pillar.get']('php:pgsql.allow_persistent', 'On') }}
+
+pgsql.auto_reset_persistent = {{ salt['pillar.get']('php:pgsql.auto_reset_persistent', 'Off') }}
+
+pgsql.max_persistent = {{ salt['pillar.get']('php:pgsql.max_persistent', '-1') }}
+
+pgsql.max_links = {{ salt['pillar.get']('php:pgsql.max_links', '-1') }}
+
+pgsql.ignore_notice = {{ salt['pillar.get']('php:pgsql.ignore_notice', '0') }}
+
+pgsql.log_notice = {{ salt['pillar.get']('php:pgsql.log_notice', '0') }}
+
+[Sybase-CT]
+
+sybct.allow_persistent = {{ salt['pillar.get']('php:sybct.allow_persistent', 'On') }}
+
+sybct.max_persistent = {{ salt['pillar.get']('php:sybct.max_persistent', '-1') }}
+
+sybct.max_links = {{ salt['pillar.get']('php:sybct.max_links', '-1') }}
+
+sybct.min_server_severity = {{ salt['pillar.get']('php:sybct.min_server_severity', '10') }}
+
+sybct.min_client_severity = {{ salt['pillar.get']('php:sybct.min_client_severity', '10') }}
+
+[bcmath]
+
+bcmath.scale = {{ salt['pillar.get']('php:bcmath.scale', '0') }}
+
+[browscap]
+
+[Session]
+
+session.save_handler = {{ salt['pillar.get']('php:session.save_handler', 'files') }}
+
+session.use_cookies = {{ salt['pillar.get']('php:session.use_cookies', '1') }}
+
+session.use_only_cookies = {{ salt['pillar.get']('php:session.use_only_cookies', '1') }}
+
+session.name = {{ salt['pillar.get']('php:session.name', 'PHPSESSID') }}
+
+session.auto_start = {{ salt['pillar.get']('php:session.auto_start', '0') }}
+
+session.cookie_lifetime = {{ salt['pillar.get']('php:session.cookie_lifetime', '0') }}
+
+session.cookie_path = {{ salt['pillar.get']('php:session.cookie_path', '/') }}
+
+session.cookie_domain = {{ salt['pillar.get']('php:session.cookie_domain', '') }}
+
+session.cookie_httponly = {{ salt['pillar.get']('php:session.cookie_httponly', '') }}
+
+session.serialize_handler = {{ salt['pillar.get']('php:session.serialize_handler', 'php') }}
+
+session.gc_probability = {{ salt['pillar.get']('php:session.gc_probability', '0') }}
+
+session.gc_divisor = {{ salt['pillar.get']('php:session.gc_divisor', '1000') }}
+
+session.gc_maxlifetime = {{ salt['pillar.get']('php:session.gc_maxlifetime', '1440') }}
+
+session.bug_compat_42 = {{ salt['pillar.get']('php:session.bug_compat_42', 'Off') }}
+
+session.bug_compat_warn = {{ salt['pillar.get']('php:session.bug_compat_warn', 'Off') }}
+
+session.referer_check = {{ salt['pillar.get']('php:session.referer_check', '') }}
+
+session.cache_limiter = {{ salt['pillar.get']('php:session.cache_limiter', 'nocache') }}
+
+session.cache_expire = {{ salt['pillar.get']('php:session.cache_expire', '180') }}
+
+session.use_trans_sid = {{ salt['pillar.get']('php:session.use_trans_sid', '0') }}
+
+session.hash_function = {{ salt['pillar.get']('php:session.hash_function', '0') }}
+
+session.hash_bits_per_character = {{ salt['pillar.get']('php:session.hash_bits_per_character', '5') }}
+
+url_rewriter.tags = {{ salt['pillar.get']('php:url_rewriter.tags', '"a=href,area=href,frame=src,input=src,form=fakeentry"') }}
+
+[MSSQL]
+
+mssql.allow_persistent = {{ salt['pillar.get']('php:mssql.allow_persistent', 'On') }}
+
+mssql.max_persistent = {{ salt['pillar.get']('php:mssql.max_persistent', '-1') }}
+
+mssql.max_links = {{ salt['pillar.get']('php:mssql.max_links', '-1') }}
+
+mssql.min_error_severity = {{ salt['pillar.get']('php:mssql.min_error_severity', '10') }}
+
+mssql.min_message_severity = {{ salt['pillar.get']('php:mssql.min_message_severity', '10') }}
+
+mssql.compatibility_mode = {{ salt['pillar.get']('php:mssql.compatibility_mode', 'Off') }}
+
+mssql.secure_connection = {{ salt['pillar.get']('php:mssql.secure_connection', 'Off') }}
+
+[Assertion]
+
+[COM]
+
+[mbstring]
+
+[gd]
+
+[exif]
+
+[Tidy]
+
+tidy.clean_output = {{ salt['pillar.get']('php:tidy.clean_output', 'Off') }}
+
+[soap]
+
+soap.wsdl_cache_enabled = {{ salt['pillar.get']('php:soap.wsdl_cache_enabled', '1') }}
+
+soap.wsdl_cache_dir = {{ salt['pillar.get']('php:soap.wsdl_cache_dir', '"/tmp"') }}
+
+soap.wsdl_cache_ttl = {{ salt['pillar.get']('php:soap.wsdl_cache_ttl', '86400') }}
+
+soap.wsdl_cache_limit = {{ salt['pillar.get']('php:soap.wsdl_cache_limit', '5') }}
+
+[sysvshm]
+
+[ldap]
+
+ldap.max_links = {{ salt['pillar.get']('php:ldap.max_links', '-1') }}
+
+[mcrypt]
+
+[dba]
+
+[opcache]
+
+ ;size of the optimized code.
+
+[curl]
+
+{% if 'xhprof' in salt['grains.get']('requirements', []) %}
+[xhprof]
+extension={{ salt['pillar.get']('xhprof:extension', 'xhprof.so') }}
+xhprof.output_dir={{ salt['pillar.get']('xhprof:output_dir', '/tmp') }}
+{% endif %}

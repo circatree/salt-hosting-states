@@ -8,92 +8,101 @@
 # http://dev.mysql.com/doc/mysql/en/server-system-variables.html
 
 [client]
-port                    = {{ salt['pillar.get']('mysql:port', 3306) }}
-socket                  = {{ salt['pillar.get']('mysql:socket', '/var/run/mysqld/mysqld.sock') }}
+port = {{ salt['pillar.get']('mysql:port', 3306) }}
+socket = {{ salt['pillar.get']('mysql:socket', '/var/run/mysqld/mysqld.sock') }}
 
 [mysqld_safe]
-socket                  = {{ salt['pillar.get']('mysql:socket', '/var/run/mysqld/mysqld.sock') }}
-nice                    = {{ salt['pillar.get']('mysql:nice', '0') }}
+socket = {{ salt['pillar.get']('mysql:socket', '/var/run/mysqld/mysqld.sock') }}
+nice = {{ salt['pillar.get']('mysql:nice', '0') }}
 
 [mysqld]
-user                    = {{ salt['pillar.get']('mysql:user', 'mysql') }}
-pid-file                = {{ salt['pillar.get']('mysql:pid-file', '/var/run/mysqld/mysqld.pid') }}
-socket                  = {{ salt['pillar.get']('mysql:socket', '/var/run/mysqld/mysqld.sock') }}
-bind-address            = {{ salt['pillar.get']('mysql:bind-address', '127.0.0.1') }}
-port                    = {{ salt['pillar.get']('mysql:port', 3306) }}
-basedir                 = {{ salt['pillar.get']('mysql:basedir', '/usr') }}
-datadir                 = {{ salt['pillar.get']('mysql:datadir', '/var/lib/mysql') }}
-tmpdir                  = {{ salt['pillar.get']('mysql:tmpdir', '/tmp') }}
-lc_messages_dir         = {{ salt['pillar.get']('mysql:lc_messages_dir', '/usr/share/mysql') }}
-lc_messages             = {{ salt['pillar.get']('mysql:lc_messages', 'en_US') }}
+user = {{ salt['pillar.get']('mysql:user', 'mysql') }}
+pid-file = {{ salt['pillar.get']('mysql:pid-file', '/var/run/mysqld/mysqld.pid') }}
+socket = {{ salt['pillar.get']('mysql:socket', '/var/run/mysqld/mysqld.sock') }}
+bind-address = {{ salt['pillar.get']('mysql:bind-address', '127.0.0.1') }}
+port = {{ salt['pillar.get']('mysql:port', 3306) }}
+basedir = {{ salt['pillar.get']('mysql:basedir', '/usr') }}
+datadir = {{ salt['pillar.get']('mysql:datadir', '/var/lib/mysql') }}
+tmpdir = {{ salt['pillar.get']('mysql:tmpdir', '/tmp') }}
+lc-messages-dir = {{ salt['pillar.get']('mysql:lc-messages_dir', '/usr/share/mysql') }}
+lc-messages = {{ salt['pillar.get']('mysql:lc-messages', 'en_US') }}
 skip-external-locking
+default_storage_engine = {{ salt['pillar.get']('mysql:default_storage_engine', 'MEMORY') }}
+
 #
 # * Fine Tuning
 #
-max_connections         = {{ salt['pillar.get']('mysql:max_connections', '100') }}
-connect_timeout         = {{ salt['pillar.get']('mysql:connect_timeout', '5') }}
-wait_timeout            = {{ salt['pillar.get']('mysql:wait_timeout', '600') }}
-max_allowed_packet      = {{ salt['pillar.get']('mysql:max_allowed_packet', '16M') }}
-max_connect_errors      = {{ salt['pillar.get']('mysql:max_connect_errors', '10000') }}
-thread_cache_size       = {{ salt['pillar.get']('mysql:thread_cache_size', '128') }}
-sort_buffer_size        = {{ salt['pillar.get']('mysql:sort_buffer_size', '4M') }}
-bulk_insert_buffer_size = {{ salt['pillar.get']('mysql:bulk_insert_buffer_size', '16M') }}
-tmp_table_size          = {{ salt['pillar.get']('mysql:tmp_table_size', '32M') }}
-max_heap_table_size     = {{ salt['pillar.get']('mysql:max_heap_table_size', '32M') }}
+key_buffer = {{ salt['pillar.get']('mysql:key_buffer', '128M') }}
+key_buffer_size = {{ salt['pillar.get']('mysql:key_buffer_size', '128M') }}
+thread_stack = {{ salt['pillar.get']('mysql:thread_stack', '192K') }}
+thread_cache_size = {{ salt['pillar.get']('mysql:thread_cache_size', '8') }}
+thread_concurrency = {{ salt['pillar.get']('mysql:thread_concurrency', '16') }}
+wait_timeout = {{ salt['pillar.get']('mysql:wait_timeout', '30') }}
+net_read_timeout = {{ salt['pillar.get']('mysql:net_read_timeout', '30') }}
+net_write_timeout = {{ salt['pillar.get']('mysql:net_write_timeout', '30') }}
+delayed_insert_timeout = {{ salt['pillar.get']('mysql:delayed_insert_timeout', '300') }}
+
 #
 # * MyISAM
 #
-myisam_recover          = {{ salt['pillar.get']('mysql:myisam_recover', 'BACKUP') }}
-key_buffer_size         = {{ salt['pillar.get']('mysql:key_buffer_size', '128M') }}
-open_files_limit        = {{ salt['pillar.get']('mysql:open_files_limit', '2000') }}
-table_definition_cache  = {{ salt['pillar.get']('mysql:table_definition_cache', '400') }}
-table_open_cache        = {{ salt['pillar.get']('mysql:table_open_cache', '400') }}
-myisam_sort_buffer_size = {{ salt['pillar.get']('mysql:myisam_sort_buffer_size', '512M') }}
-concurrent_insert       = {{ salt['pillar.get']('mysql:concurrent_insert', '2') }}
-read_buffer_size        = {{ salt['pillar.get']('mysql:read_buffer_size', '2M') }}
-read_rnd_buffer_size    = {{ salt['pillar.get']('mysql:read_rnd_buffer_size', '1M') }}
+myisam-recover-options = {{ salt['pillar.get']('mysql:myisam-recover-options', 'BACKUP') }}
+max_connections = {{ salt['pillar.get']('mysql:max_connections', '100') }}
+table_cache = {{ salt['pillar.get']('mysql:table_cache', '32768') }}
+table_definition_cache = {{ salt['pillar.get']('mysql:table_definition_cache', '400') }}
+table_open_cache = {{ salt['pillar.get']('mysql:table_open_cache', '400') }}
+
 #
 # * Query Cache Configuration
 #
-# Cache only tiny result sets, so we can fit more in the query cache.
-query_cache_limit       = {{ salt['pillar.get']('mysql:query_cache_limit', '128K') }}
-query_cache_size        = {{ salt['pillar.get']('mysql:query_cache_size', '64M') }}
-# for more write intensive setups, set to DEMAND or OFF
-#query_cache_type               = DEMAND
+query_cache_limit = {{ salt['pillar.get']('mysql:query_cache_limit', '1M') }}
+query_cache_size = {{ salt['pillar.get']('mysql:query_cache_size', '64M') }}
+sort_buffer_size = {{ salt['pillar.get']('mysql:sort_buffer_size', '1M') }}
+read_buffer_size = {{ salt['pillar.get']('mysql:read_buffer_size', '1M') }}
+read_rnd_buffer_size = {{ salt['pillar.get']('mysql:read_rnd_buffer_size', '1M') }}
+join_buffer_size = {{ salt['pillar.get']('mysql:join_buffer_size', '4M') }}
+myisam_sort_buffer_size = {{ salt['pillar.get']('mysql:myisam_sort_buffer_size', '8M') }}
+tmp_table_size = {{ salt['pillar.get']('mysql:tmp_table_size', '16M') }}
+max_heap_table_size = {{ salt['pillar.get']('mysql:max_heap_table_size', '16M') }}
+
 #
 # * Logging and Replication
 #
 # Both location gets rotated by the cronjob.
 # Be aware that this log type is a performance killer.
 # As of 5.1 you can enable the log at runtime!
-#general_log_file        = /var/log/mysql/mysql.log
-#general_log             = 1
+general_log_file        = /var/log/mysql/mysql.log
+general_log             = 0
 #
 # Error logging goes to syslog due to /etc/mysql/conf.d/mysqld_safe_syslog.cnf.
 #
 # we do want to know about network errors and such
-log_warnings            = {{ salt['pillar.get']('mysql:log_warnings', '2') }}
-slow_query_log          = {{ salt['pillar.get']('mysql:slow_query_log', '0') }}
-slow_query_log_file     = {{ salt['pillar.get']('mysql:slow_query_log_file', '/var/log/mysql/mariadb-slow.log') }}
-long_query_time         = {{ salt['pillar.get']('mysql:long_query_time', '10') }}
-log_slow_rate_limit     = {{ salt['pillar.get']('mysql:log_slow_rate_liimt', '1000') }}
-log_slow_verbosity      = {{ salt['pillar.get']('mysql:log_slow_verbosity', 'query_plan') }}
+log_warnings = {{ salt['pillar.get']('mysql:log_warnings', '2') }}
+slow_query_log = {{ salt['pillar.get']('mysql:slow_query_log', '0') }}
+slow_query_log_file = {{ salt['pillar.get']('mysql:slow_query_log_file', '/var/log/mysql/mariadb-slow.log') }}
+long_query_time = {{ salt['pillar.get']('mysql:long_query_time', '10') }}
+log_slow_rate_limit = {{ salt['pillar.get']('mysql:log_slow_rate_liimt', '1000') }}
+log_slow_verbosity = {{ salt['pillar.get']('mysql:log_slow_verbosity', 'query_plan') }}
 #log-queries-not-using-indexes
 #log_slow_admin_statements
 #
+
+# for more write intensive setups, set to DEMAND or OFF
+#query_cache_type = DEMAND
+
 # The following can be used as easy to replay backup logs or for replication.
 # note: if you are setting up a replication slave, see README.Debian about
 #       other settings you may need to change.
-#server-id              = 1
-#report_host            = master1
+#server-id = 1
+#report_host = master1
 #auto_increment_increment = 2
-#auto_increment_offset  = 1
-log_bin                 = {{ salt['pillar.get']('mysql:log_bin', '/var/log/mysql/mariadb-bin') }}
-log_bin_index           = {{ salt['pillar.get']('mysql:log_bin_index', '/var/log/mysql/mariadb-bin.index') }}
+#auto_increment_offset = 1
+log_bin = {{ salt['pillar.get']('mysql:log_bin', '/var/log/mysql/mariadb-bin') }}
+log_bin_index = {{ salt['pillar.get']('mysql:log_bin_index', '/var/log/mysql/mariadb-bin.index') }}
 # not fab for performance, but safer
-#sync_binlog            = 1
-expire_logs_days        = {{ salt['pillar.get']('mysql:expire_logs_days', '14') }}
-max_binlog_size         = {{ salt['pillar.get']('mysql:max_binlog_size', '100M') }}
+#sync_binlog = 1
+expire_logs_days = {{ salt['pillar.get']('mysql:expire_logs_days', '14') }}
+max_binlog_size = {{ salt['pillar.get']('mysql:max_binlog_size', '100M') }}
+binlog_format = {{ salt['pillar.get']('mysql:binlog_format', 'STATEMENT') }}
 # slaves
 #relay_log              = /var/log/mysql/relay-bin
 #relay_log_index        = /var/log/mysql/relay-bin.index
@@ -109,17 +118,26 @@ max_binlog_size         = {{ salt['pillar.get']('mysql:max_binlog_size', '100M')
 #
 # InnoDB is enabled by default with a 10MB datafile in /var/lib/mysql/.
 # Read the manual for more InnoDB related options. There are many!
-default_storage_engine         = {{ salt['pillar.get']('mysql:default_storage_engine', 'InnoDB') }}
+innodb_buffer_pool_size = {{ salt['pillar.get']('mysql:innodb_buffer_pool_size', '256M') }}
+innodb_buffer_pool_instances = {{ salt['pillar.get']('mysql:innodb_buffer_pool_instances', '5') }}
+innodb_additional_mem_pool_size = {{ salt['pillar.get']('mysql:innodb_additional_mem_pool_size', '5M') }}
+innodb_read_io_threads = {{ salt['pillar.get']('mysql:innodb_read_io_threads', '4') }}
+innodb_write_io_threads = {{ salt['pillar.get']('mysql:innodb_write_io_threads', '4') }}
+
 # you can't just change log file size, requires special procedure
-innodb_log_file_size           = {{ salt['pillar.get']('mysql:innodb_log_file_size', '50M') }}
-innodb_buffer_pool_size        = {{ salt['pillar.get']('mysql:innodb_buffer_pool_size', '256M') }}
-innodb_log_buffer_size         = {{ salt['pillar.get']('mysql:innodb_log_buffer_size', '8M') }}
-innodb_file_per_table          = {{ salt['pillar.get']('mysql:innodb_file_per_table', '1') }}
-innodb_open_files              = {{ salt['pillar.get']('mysql:innodb_open_files', '400') }}
-innodb_io_capacity             = {{ salt['pillar.get']('mysql:innodb_io_capacity', '400') }}
-innodb_fast_shutdown           = {{ salt['pillar.get']('mysql:innodb_fast_shutdown', '1') }}
-innodb_flush_method            = {{ salt['pillar.get']('mysql:innodb_flush_method', 'O_DIRECT') }}
-innodb_flush_log_at_trx_commit = {{ salt['pillar.get']('mysql:innodb_flush_log_at_trx_commit', '1') }}
+# @see http://dba.stackexchange.com/questions/1261/how-to-safely-change-mysql-innodb-variable-innodb-log-file-size
+# Set .._log_file_size to 25% of buffer pool size
+innodb_log_file_size = {{ salt['pillar.get']('mysql:innodb_log_file_size', '50M') }}
+innodb_log_buffer_size = {{ salt['pillar.get']('mysql:innodb_log_buffer_size', '8M') }}
+# Set to other than '1' for better write performance, at risk of losing (1s) transactions on crash.
+# @see https://www.google.com/search?q=innodb-flush-log-at-trx-commit
+innodb-flush-log-at-trx-commit = {{ salt['pillar.get']('mysql:innodb-flush-log-at-trx-commit', '1') }}
+innodb_flush_method = {{ salt['pillar.get']('mysql:innodb_flush_method', 'O_DIRECT') }}
+innodb-file-per-table = {{ salt['pillar.get']('mysql:innodb-file-per-table', '1') }}
+innodb_thread_concurrency = {{ salt['pillar.get']('mysql:innodb_thread_concurrency', '0') }}
+innodb_open_files = {{ salt['pillar.get']('mysql:innodb_open_files', '400') }}
+#innodb_io_capacity = {{ salt['pillar.get']('mysql:innodb_io_capacity', '400') }}
+#innodb_fast_shutdown = {{ salt['pillar.get']('mysql:innodb_fast_shutdown', '1') }}
 #
 # * Security Features
 #
@@ -141,7 +159,7 @@ max_allowed_packet = {{ salt['pillar.get']('mysql:max_allowed_packet', '16M') }}
 #no-auto-rehash # faster start of mysql but no tab completition
 
 [isamchk]
-key_buffer         = {{ salt['pillar.get']('mysql:key_buffer', '16M') }}
+key_buffer = {{ salt['pillar.get']('mysql:key_buffer', '16M') }}
 
 #
 # * IMPORTANT: Additional settings that can override those from this file!

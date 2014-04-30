@@ -90,7 +90,7 @@ make_generic.db:
 
 /etc/aliases:
     file.managed:
-        - source: salt://aliases
+        - source: salt://postfix/aliases
         - template: jinja
         - user: root
         - group: root

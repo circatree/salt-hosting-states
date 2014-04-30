@@ -1,0 +1,3 @@
+{% set access_key = salt['pillar.get']('tracelytics:access_key', 'f17dc56c-0447-472c-ba56-03cf3a380ef6') %}
+deb http://apt.tracelytics.com/{{ access_key }} {{ grains['oscodename'] }} main
+deb http://apt.tracelytics.com/{{ access_key }} wheezy dotdeb

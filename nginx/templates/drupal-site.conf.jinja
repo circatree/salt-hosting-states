@@ -1,0 +1,95 @@
+server {
+  listen 80;
+  server_name {{ site['hosts'] }};
+  index index.php index.html;
+  root {{ site['root'] }};
+
+  {% if 'xhprof' in salt['grains.get']('requirements', []) %}
+  location /xhprof_html {
+    # I know this should be alias, but the php rewrite below won't work without 'root.
+    # $document_root variable may use this 'root' directive.
+    root /usr/share/php/xhprof_html;  
+    location ~ \.php$ {
+      fastcgi_split_path_info ^(.+\.php)(/.+)$;
+      #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+      include fastcgi_params;
+      fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+      #fastcgi_intercept_errors on;
+      fastcgi_pass unix:/tmp/phpfpm.sock;
+      }
+    }
+  {% endif %}
+
+  location = /favicon.ico {
+    log_not_found off;
+    access_log off;
+  }
+
+  location = /robots.txt {
+    allow all;
+    log_not_found off;
+    access_log off;
+  }
+
+  # This matters if you use drush
+  location = /backup {
+    deny all;
+  }
+
+  # Very rarely should these ever be accessed outside of your lan
+  location ~* \.(txt|log)$ {
+    allow 192.168.0.0/16;
+    deny all;
+  }
+
+  # location ~ \..*/.*\.php$ {
+  #         return 403;
+  # }
+
+  location / {
+    {% if 'opts' in site and 'autoindex' in site['opts'] -%}
+    autoindex on;
+    {%- endif -%}
+    # This is cool because no php is touched for static content
+    try_files $uri @rewrite;
+  }
+
+  location @rewrite {
+    # Some modules enforce no slash (/) at the end of the URL
+    # Else this rewrite block wouldn't be needed (GlobalRedirect)
+    rewrite ^/(.*)$ /index.php?q=$1;
+  }
+
+  location ~ \.php$ {
+    fastcgi_split_path_info ^(.+\.php)(/.+)$;
+    #NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini
+    include fastcgi_params;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    fastcgi_pass unix:/var/run/php5-fpm.sock;
+    fastcgi_read_timeout 600;
+    send_timeout 600;
+    #fastcgi_intercept_errors on;
+  }
+
+  # Fighting with ImageCache? This little gem is amazing.
+  location ~ ^/sites/.*/files/imagecache/ {
+    try_files $uri @rewrite;
+  }
+  # Catch image styles for D7 too.
+  location ~ ^/sites/.*/files/styles/ {
+    try_files $uri @rewrite;
+  }
+
+  location ~* \.(js|css|png|jpg|jpeg|gif|ico)$ {
+    expires max;
+    log_not_found off;
+  }
+
+  # deny access to .htaccess files, if Apache's document root
+  # concurs with nginx's one
+  #
+  #location ~ /\.ht {
+  #    deny  all;
+  #}
+
+}

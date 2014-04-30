@@ -1,16 +1,19 @@
-php:
-  pkg:
-   - installed
-   {% if grains['os'] == 'Debian' or grains['os'] == 'Ubuntu' or grains['os'] == 'Gentoo' %}
-   - name: php5
-   {% endif %}
-   - require_in:
-     - service: nginx
+include:
+  - bin.make
+  - php.dev
+  - php.pear
+  - apt.update
 
-php-apc:
-  pkg:
-    - installed
+php5:
+  pkg.installed:
+    - require:
+      - sls: apt.update
 
-php5-fpm:
-  pkg:
-    - installed
+{% if 'xhprof' in salt['grains.get']('requirements', []) %}
+{% set xhprof_pkg_name = 'xhprof-0.9.2' if (salt['grains.get']('oscodename', '') == 'precise') else 'xhprof-0.9.4' %}
+{{ xhprof_pkg_name }}:
+  pecl.installed:
+    - require:
+      - sls: php.dev
+      - sls: php.pear
+{% endif %}

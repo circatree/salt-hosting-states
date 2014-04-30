@@ -1,11 +1,19 @@
 {% set sites_enabled = salt['pillar.get']('nginx:sites_enabled', ['default']) %}
 {% set sites_disabled = salt['pillar.get']('nginx:sites_disabled', []) %}
+{% set requirements = salt['grains.get']('requirements', []) %}
+{% set tracelytics_enabled = 'tracelytics' in requirements %}
 
+{% if tracelytics_enabled %}
+include:
+  - tracelytics.apt.sources
+{% endif %}
+{% if not tracelytics_enabled %}
 nginx_stable_ppa:
   pkgrepo.managed:
     - ppa: nginx/stable
     - require_in:
       - pkg: nginx
+{% endif %}
 
 nginx_webroot:
   file.directory:
@@ -18,6 +26,10 @@ nginx:
   pkg:
     - name: nginx
     - installed
+    {% if tracelytics_enabled %}
+    - require:
+      - sls: tracelytics.apt.sources
+    {% endif %}
   service:
     - running
     - watch:
@@ -59,8 +71,9 @@ nginx:
     - dir_mode: 544
     - file_mode: 444
 
+{% set nginx_sites = pillar.get('nginx', {}).get('sites', {}) %}
 {% for sitename in sites_enabled %}
-{% set site = pillar['nginx']['sites'][sitename] %}
+{% set site = nginx_sites[sitename] %}
 {{ sitename }}_webroot:
   file.directory:
     - name: {{ site.root }}
@@ -76,7 +89,7 @@ nginx:
 
 /etc/nginx/sites-available/{{ sitename }}:
   file.managed:
-    - source: salt://nginx/templates/site.jinja
+    - source: salt://nginx/templates/drupal-site.conf.jinja
     - template: jinja
     - context:
       site: {{ site }}

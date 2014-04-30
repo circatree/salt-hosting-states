@@ -1,0 +1,18 @@
+{% set turbo = grains['id'] in ['tabata-nginx-dev', 'tabata-nginx-stg', 'tabata-nginx-prd'] -%}
+{# @see http://www.codestance.com/tutorials-archive/install-and-configure-php-fpm-on-nginx-385 -#}
+
+[www]
+user = {{ salt['pillar.get']('php-fpm:user', 'www-data') }}
+group = {{ salt['pillar.get']('php-fpm:group', 'www-data') }}
+listen = {{ salt['pillar.get']('php-fpm:listen', '/var/run/php5-fpm.sock') }}
+pm = {{ salt['pillar.get']('php-fpm:pm', 'dynamic') }}
+pm.max_children = {{ salt['pillar.get']('php-fpm:pm.max_children', 20) }}
+pm.start_servers = {{ salt['pillar.get']('php-fpm:pm.start_servers', 5) }}
+pm.min_spare_servers = {{ salt['pillar.get']('php-fpm:pm.min_spare_servers', 2) }}
+pm.max_spare_servers = {{ salt['pillar.get']('php-fpm:pm.max_spare_servers', 20) }}
+pm.max_requests = {{ salt['pillar.get']('php-fpm:pm.max_requests', 100) }}
+pm.status_path = {{ salt['pillar.get']('php-fpm:pm.status_path', '/php-status') }}
+;slowlog = {{ salt['pillar.get']('php-fpm:slowlog', '/var/log/php-fpm.slow.log') }}
+catch_workers_output = {{ salt['pillar.get']('php-fpm:catch_workers_output', 'no') }}
+listen.backlog = {{ salt['pillar.get']('php-fpm:listen.backlog', '-1') }}
+request_terminate_timeout = {{ salt['pillar.get']('php-fpm:request_terminate_timeout', '100s') }}
