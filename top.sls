@@ -35,6 +35,10 @@ base:
   'roles:docker-host':
     - match: grain
     - docker.host
+    - docker.fig
+    - git
+    - python.pip
+    - python.dev
   'roles:jenkins-server':
     - match: grain
     - git
