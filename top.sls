@@ -31,7 +31,7 @@ base:
     - php.fpm
     - php.fpm.memcache
     - php.mysql
-    - nginx #tracelytics support is in nginx state.
+    - nginx
   'roles:docker-host':
     - match: grain
     - docker.host
