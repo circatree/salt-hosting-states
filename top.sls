@@ -1,12 +1,18 @@
 {% set requirements = salt['grains.get']('requirements', []) %}
-{% set enable_tracelytics = 'tracelytics' in requirements and 0 %}
+{% set enable_tracelytics = 'tracelytics' in requirements %}
+
+{#
+  @todo Implement environments.
+  @see http://docs.saltstack.com/en/latest/topics/tutorials/states_pt4.html
+#}
 
 base:
   '*':
-    - hosts
     - users
-#    - vim
-#    - postfix
+    - hosts
+    - vim
+    - postfix
+    - zsh.ohmy
   'os:Ubuntu':
     - match: grain
     - apt.sources.list
