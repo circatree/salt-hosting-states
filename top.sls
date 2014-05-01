@@ -35,7 +35,7 @@ base:
   'roles:docker-host':
     - match: grain
     - docker.host
-  'roles:jenkin-sserver':
+  'roles:jenkins-server':
     - match: grain
     - git
     - jenkins
