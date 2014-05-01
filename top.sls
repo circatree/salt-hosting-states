@@ -52,3 +52,6 @@ base:
   'requirements:drush':
     - match: grain
     - php.drush
+  'G@roles:web-server and G@roles:dev':
+    - match: compound
+    - php.drush
