@@ -43,6 +43,7 @@ base:
     - match: grain
     - git
     - jenkins
+    - php.composer
   'roles:git-server':
     - match: grain
     - git.server
