@@ -37,7 +37,6 @@ nginx:
       - file: /etc/nginx/nginx.conf
     - require:
       - file: /etc/nginx
-      - file: /etc/nginx/htpasswd
       {% for sitename in sites_enabled %}
       - file: /etc/nginx/sites-available/{{ sitename }}
       - file: /etc/nginx/sites-enabled/{{ sitename }}
@@ -62,14 +61,6 @@ nginx:
 /etc/nginx/timestamp:
   file.managed:
     - source: salt://nginx/etc/nginx/timestamp
-
-/etc/nginx/htpasswd:
-  file.recurse:
-    - source: salt://nginx/etc/nginx/htpasswd
-    - user: www-data
-    - group: www-data
-    - dir_mode: 544
-    - file_mode: 444
 
 {% set nginx_sites = pillar.get('nginx', {}).get('sites', {}) %}
 {% for sitename in sites_enabled %}
