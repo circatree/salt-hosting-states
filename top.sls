@@ -39,6 +39,12 @@ base:
     - git
     - python.pip
     - python.dev
+  'roles:docker-shipyard':
+    - match: grain
+    - docker.shipyard
+  'roles:docker-registry':
+    - match: grain
+    - docker.registry
   'roles:jenkins-server':
     - match: grain
     - git
