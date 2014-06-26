@@ -2,6 +2,9 @@
 user = {{ salt['pillar.get']('php-fpm:user', 'www-data') }}
 group = {{ salt['pillar.get']('php-fpm:group', 'www-data') }}
 listen = {{ salt['pillar.get']('php-fpm:listen', '/var/run/php5-fpm.sock') }}
+listen.owner = {{ salt['pillar.get']('php-fpm:listen.owner', 'www-data') }}
+listen.group = {{ salt['pillar.get']('php-fpm:listen.group', 'www-data') }}
+listen.mode = {{ salt['pillar.get']('php-fpm:listen.mode', '0660') }}
 pm = {{ salt['pillar.get']('php-fpm:pm', 'dynamic') }}
 pm.max_children = {{ salt['pillar.get']('php-fpm:pm.max_children', 20) }}
 pm.start_servers = {{ salt['pillar.get']('php-fpm:pm.start_servers', 5) }}

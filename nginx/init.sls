@@ -33,8 +33,8 @@ nginx:
   service:
     - running
     - watch:
-      - file: /etc/nginx/timestamp
       - file: /etc/nginx/nginx.conf
+    - reload: True
     - require:
       - file: /etc/nginx
       {% for sitename in sites_enabled %}
@@ -46,6 +46,10 @@ nginx:
       - file: /etc/nginx/sites-enabled/{{ disabled_sitename }}
       {% endfor %}
       {% endif %}
+  file.managed:
+    - name: /etc/nginx/nginx.conf
+    - template: jinja
+    - source: salt://nginx/templates/nginx.conf.jinja
 
 /etc/nginx:
   file.recurse:
@@ -53,14 +57,13 @@ nginx:
     - user: root
     - group: root
 
-/etc/nginx/nginx.conf:
-  file.managed:
-    - template: jinja
-    - source: salt://nginx/templates/nginx.conf.jinja
-
 /etc/nginx/timestamp:
   file.managed:
     - source: salt://nginx/etc/nginx/timestamp
+
+nginx_test:
+  cmd.run:
+    - name: nginx -t 2> /dev/null
 
 {% set nginx_sites = pillar.get('nginx', {}).get('sites', {}) %}
 {% for sitename in sites_enabled %}
@@ -82,8 +85,18 @@ nginx:
   file.managed:
     - source: salt://nginx/templates/drupal-site.conf.jinja
     - template: jinja
+{#
+When using both the defaults and context arguments, note the extra 
+indentation (four spaces instead of the normal two). This is due to
+an idiosyncrasy of how PyYAML loads nested dictionaries, and is 
+explained in greater detail at:
+http://docs.saltstack.com/en/latest/topics/troubleshooting/yaml_idiosyncrasies.html#nested-dict-indentation.
+#}
+    - defaults:
+        site:
+          default_site: False
     - context:
-      site: {{ site }}
+        site: {{ site }}
     - require:
       - pkg: nginx
 

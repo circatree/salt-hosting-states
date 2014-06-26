@@ -1,5 +1,5 @@
 server {
-  listen 80;
+  listen 80 {%- if site['default_server'] %} default_server{% endif %};
   server_name {{ site['hosts'] }};
   index index.php index.html;
   root {{ site['root'] }};

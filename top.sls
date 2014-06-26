@@ -8,6 +8,7 @@
 
 base:
   '*':
+    - salt.minion
     - users
     - hosts
     - vim
@@ -58,6 +59,10 @@ base:
   'roles:ssh-server':
     - match: grain
     - ssh.server
+  'roles:salt-master:
+    - match: grain
+    - salt.master
+    - salt.minion
 
   # Grains-derived requirements:
   'requirements:drush':
