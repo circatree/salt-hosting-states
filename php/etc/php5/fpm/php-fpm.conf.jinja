@@ -1,4 +1,7 @@
+include = {{ salt['pillar.get']('php-fpm:include', '/etc/php5/fpm/pool.d/*.conf') }}
+
+[global]
 pid = {{ salt['pillar.get']('php-fpm:pid', '/var/run/php5-fpm.pid' ) }}
 log_level = {{ salt['pillar.get']('php-fpm:log_level', 'warning') }}
 error_log = {{ salt['pillar.get']('php-fpm:error_log', '/var/log/php5-fpm.log') }}
-include = {{ salt['pillar.get']('php-fpm:include', '/etc/php5/fpm/pool.d/*.conf') }}
+daemonize = {{ salt['pillar.get']('php-fpm:daemonize', 'yes') }}

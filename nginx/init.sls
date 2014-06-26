@@ -3,8 +3,9 @@
 {% set requirements = salt['grains.get']('requirements', []) %}
 {% set tracelytics_enabled = 'tracelytics' in requirements %}
 
-{% if tracelytics_enabled %}
 include:
+  - supervisor
+{% if tracelytics_enabled %}
   - tracelytics.apt.sources
 {% endif %}
 {% if not tracelytics_enabled %}
@@ -30,12 +31,13 @@ nginx:
     - require:
       - sls: tracelytics.apt.sources
     {% endif %}
-  service:
-    - running
+  supervisord.running:
+    - reload: True
     - watch:
       - file: /etc/nginx/nginx.conf
-    - reload: True
+      - file: /etc/supervisor/conf.d/nginx.conf
     - require:
+      - pkg: supervisor
       - file: /etc/nginx
       {% for sitename in sites_enabled %}
       - file: /etc/nginx/sites-available/{{ sitename }}
@@ -61,6 +63,13 @@ nginx:
   file.managed:
     - source: salt://nginx/etc/nginx/timestamp
 
+/etc/supervisor/conf.d/nginx.conf:
+  file.managed:
+    - source: salt://nginx/templates/nginx_supervisor.conf
+    - template: jinja
+    - user: root
+    - group: root
+
 nginx_test:
   cmd.run:
     - name: nginx -t 2> /dev/null
@@ -73,8 +82,8 @@ nginx_test:
     - name: {{ site.root }}
     - user: {{ site.owner }}
     - group: {{ salt['pillar.get']('nginx:web_user', 'www-data') }}
-    - dir_mode: 750
-    - file_mode: 640
+    - dir_mode: '0750'
+    - file_mode: '0640'
     - makedirs: True
     - recurse:
       - mode
@@ -94,7 +103,7 @@ http://docs.saltstack.com/en/latest/topics/troubleshooting/yaml_idiosyncrasies.h
 #}
     - defaults:
         site:
-          default_site: False
+          default_server: False
     - context:
         site: {{ site }}
     - require:

@@ -3,6 +3,7 @@
 user www-data;
 worker_processes auto;
 pid /var/run/nginx.pid;
+daemon off;
 
 {# worker_rlimit_nofile 100000; #}
 error_log /var/log/nginx/error.log error;
