@@ -59,6 +59,11 @@ nginx:
     - user: root
     - group: root
 
+/etc/nginx/fastcgi_params:
+  file.managed:
+    - source: salt://nginx/templates/fastcgi_params.jinja
+    - template: jinja
+
 /etc/nginx/timestamp:
   file.managed:
     - source: salt://nginx/etc/nginx/timestamp
