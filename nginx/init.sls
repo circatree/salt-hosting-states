@@ -35,7 +35,11 @@ nginx:
     - reload: True
     - watch:
       - file: /etc/nginx/nginx.conf
+      - file: /etc/nginx/fastcgi_params
       - file: /etc/supervisor/conf.d/nginx.conf
+      {% for sitename in sites_enabled %}
+      - file: /etc/nginx/sites-available/{{ sitename }}
+      {% endfor %}
     - require:
       - pkg: supervisor
       - file: /etc/nginx
