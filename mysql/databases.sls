@@ -1,5 +1,5 @@
 include:
-  - mariadb
+  - mysql
 
 {% for db in salt['grains.get']('mysql:databases', []) %}
 mysql_{{ db.name }}_db:
