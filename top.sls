@@ -55,7 +55,7 @@ base:
     - match: grain
     - bin.inotify
     - bin.pwgen
-    - mariadb
+    - mysql
   'roles:ssh-server':
     - match: grain
     - ssh.server

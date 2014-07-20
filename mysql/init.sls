@@ -29,5 +29,6 @@ mariadb-server:
     - user: root
     - group: root
     - mode: 0644
-    - source: salt://mariadb/mariadb-{{ version }}-my.cnf.jinja
+    - source: salt://mysql/mariadb-{{ version }}-my.cnf.jinja
     - template: jinja
+
