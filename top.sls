@@ -56,6 +56,7 @@ base:
     - bin.inotify
     - bin.pwgen
     - mysql
+    - mysql.databases
   'roles:ssh-server':
     - match: grain
     - ssh.server
