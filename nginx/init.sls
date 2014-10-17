@@ -103,18 +103,18 @@ nginx_test:
   file.managed:
     - source: salt://nginx/templates/drupal-site.conf.jinja
     - template: jinja
-{#
-When using both the defaults and context arguments, note the extra 
-indentation (four spaces instead of the normal two). This is due to
-an idiosyncrasy of how PyYAML loads nested dictionaries, and is 
-explained in greater detail at:
-http://docs.saltstack.com/en/latest/topics/troubleshooting/yaml_idiosyncrasies.html#nested-dict-indentation.
-#}
-    - defaults:
-        site:
-          default_server: False
+  {#-
+    When using both the defaults and context arguments, note the extra 
+    indentation (four spaces instead of the normal two). This is due to
+    an idiosyncrasy of how PyYAML loads nested dictionaries, and is 
+    explained in greater detail at:
+    http://docs.saltstack.com/en/latest/topics/troubleshooting/yaml_idiosyncrasies.html#nested-dict-indentation.
+  #}
     - context:
         site: {{ site }}
+    - defaults:
+        site:
+            default_server: False
     - require:
       - pkg: nginx
 
