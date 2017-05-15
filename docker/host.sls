@@ -1,34 +1,16 @@
-{#
-  Docker Host
-  Currently with support for Ubuntu 12.04 and 13.04.
-#}
-{% if grains['os'] == 'Ubuntu' %}
-
-{% if grains['oscodename'] == 'precise' %}
-{#
-  Backport raring kernel to Ubuntu 12.04 Precise.
-  @see http://docs.docker.io/en/latest/installation/ubuntulinux/#ubuntu-precise
-#}
-docker-raring-backport-kernel:
-  pkg.installed:
-    - pkgs:
-      - linux-image-generic-lts-raring
-      - linux-headers-generic-lts-raring
-{% endif %}
-
-docker-pkg-key:
+import-docker-key:  
   cmd.run:
-    - name: wget -qO- https://get.docker.io/gpg | apt-key add - && apt-get update
-    - unless: apt-key list | grep A88D21E9
-
-docker-apt-sources-list:
+    - name: apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    - creates: /etc/apt/sources.list.d/docker.list
+/etc/apt/sources.list.d/docker.list:
   file.managed:
-    - name: /etc/apt/sources.list.d/docker.list
-    - source: salt://docker/etc/apt/sources.list.d/docker.list
+    - source: salt://docker.list
 
-lxc-docker:
-  pkg.installed:
-    - require:
-      - cmd: docker-pkg-key
+docker-engine:
+  pkg.installed
 
-{% endif %}
+docker:
+  service.running:
+    - enabled: True
+    - watch:
+      - pkg: docker-engine
